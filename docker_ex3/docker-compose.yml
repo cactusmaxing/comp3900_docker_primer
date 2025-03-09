@@ -4,10 +4,22 @@ services:
     image: "redis:alpine"
     ports:
       - "6379:6379"
-  # TODO: add your code here (delete this line and follow the indent conventions)
+
   app:
-    # TODO: you will need to add to this
+    build: ./backend  
     environment:
       - REDIS_HOST=redis
+    ports:
+      - "9900:9900"  
+    depends_on:
+      - redis  
+
   frontend:
-    # TODO: you will need to add to this
+    build: ./frontend 
+    environment:
+      - REACT_APP_BACKEND_URL=http://localhost:9900 
+    ports:
+      - "3901:3000" 
+    depends_on:
+      - app  
+
